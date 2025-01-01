@@ -7,7 +7,6 @@ const messageElement = document.getElementById("message");
 const imageElement = document.getElementById("certificate-image");
 const actionsElement = document.getElementById("actions");
 const shareButton = document.getElementById("share-button");
-const addToLinkedInButton = document.getElementById("add-to-linkedin");
 const modal = document.getElementById("share-instructions-modal");
 const closeButton = document.querySelector(".close-button");
 
@@ -42,20 +41,11 @@ fetch("certificates.json")
         // Show the modal with instructions
         modal.style.display = "block";
 
-        // Open LinkedIn profile after 5 seconds
+        // Open LinkedIn post dialog after 5 seconds
         setTimeout(() => {
-          const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent("GEN AI Study Jams 2024")}&organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}&certUrl=${encodeURIComponent(window.location.href)}&certId=${encodeURIComponent(certificate.certID)}&dateIssued=${encodeURIComponent("November 2024")}`;
-          window.open(addToLinkedInURL, "_blank");
+          const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent("GEN AI Certificate")}&summary=${encodeURIComponent(postText)}`;
+          window.open(linkedInPostURL, "_blank");
         }, 5000); // 5000 milliseconds = 5 seconds
-      };
-
-      // Configure Add to LinkedIn Profile button
-      addToLinkedInButton.onclick = () => {
-        // Construct the LinkedIn profile update URL with all required details
-        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent("GEN AI Study Jams 2024")}&organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}&certUrl=${encodeURIComponent(window.location.href)}&certId=${encodeURIComponent(certificate.certID)}&dateIssued=${encodeURIComponent("November 2024")}`;
-        
-        // Open the LinkedIn add profile page in a new tab
-        window.open(addToLinkedInURL, "_blank");
       };
 
       // Configure Download button
