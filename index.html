@@ -9,8 +9,14 @@
 <body>
   <div class="container">
     <h1>Certificate Verification</h1>
-    <p id="result">Checking certificate...</p>
-    <button id="shareLinkedIn" style="display: none;">Share on LinkedIn</button>
+    <div id="certificate-container">
+      <p id="message">Loading your certificate...</p>
+      <img id="certificate-image" src="" alt="Certificate" style="display:none;">
+    </div>
+    <div id="actions" style="display:none;">
+      <button id="share-button">Share on LinkedIn</button>
+      <button id="add-to-linkedin">Add to LinkedIn</button>
+    </div>
   </div>
 
   <script src="script.js"></script>
