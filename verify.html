@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Verification</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* Inline CSS additions */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -43,6 +41,18 @@
       margin-bottom: 20px;
     }
 
+    #credentials {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #555;
+    }
+
+    .authenticity-message {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: green;
+    }
+
     button {
       padding: 10px 20px;
       margin: 10px;
@@ -59,6 +69,10 @@
     #add-to-linkedin {
       background: #ff6f00;
     }
+
+    #download-certificate {
+      background: #4CAF50;
+    }
   </style>
 </head>
 <body>
@@ -68,6 +82,13 @@
       <p id="message">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate" style="display:none;">
     </div>
+    <p class="authenticity-message" style="display:none;" id="authenticity-message">
+      This certificate is verified and authentic.
+    </p>
+    <div id="credentials" style="display:none;">
+      <p>Credential ID: <span id="credential-id"></span></p>
+      <p>Credential URL: <a href="#" target="_blank" id="credential-url"></a></p>
+    </div>
     <div id="actions" style="display:none;">
       <button id="share-button">Share on LinkedIn</button>
       <button id="add-to-linkedin">Add to LinkedIn</button>
@@ -75,47 +96,66 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
   <script>
-    // Inline JavaScript additions
-    document.addEventListener("DOMContentLoaded", function () {
-      const userName = "Abhi Jain"; // Replace with dynamic data
-      const certificateImagePath = "certificates/GenAi24_0001.jpg"; // Replace with dynamic data
-      const messageElement = document.getElementById("message");
-      const certificateImageElement = document.getElementById("certificate-image");
-      const actionsElement = document.getElementById("actions");
+    // Sample data
+    const certificateData = {
+      certID: "GenAi24_0001",
+      name: "Abhi Jain",
+      event: "GEN AI Study Jams",
+      status: "Verified",
+      image: "certificates/GenAi24_0001.jpg",
+      credentialURL: "https://example.com/certificate/GenAi24_0001"
+    };
 
-      // Simulate loading the certificate
-      setTimeout(() => {
-        messageElement.style.display = "none"; // Hide the loading message
-        certificateImageElement.src = certificateImagePath;
-        certificateImageElement.alt = `${userName}'s Certificate`;
-        certificateImageElement.style.display = "block"; // Show the certificate
-        actionsElement.style.display = "block"; // Show the action buttons
-      }, 1000);
+    // Load certificate details
+    window.onload = function () {
+      const message = document.getElementById("message");
+      const certificateImage = document.getElementById("certificate-image");
+      const actions = document.getElementById("actions");
+      const authenticityMessage = document.getElementById("authenticity-message");
+      const credentials = document.getElementById("credentials");
+      const credentialID = document.getElementById("credential-id");
+      const credentialURL = document.getElementById("credential-url");
 
-      // Share on LinkedIn
-      document.getElementById("share-button").addEventListener("click", function () {
-        const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-          window.location.href
+      // Display certificate image
+      certificateImage.src = certificateData.image;
+      certificateImage.style.display = "block";
+      message.style.display = "none";
+
+      // Show authenticity message
+      authenticityMessage.style.display = "block";
+
+      // Set and display credential details
+      credentialID.textContent = certificateData.certID;
+      credentialURL.textContent = certificateData.credentialURL;
+      credentialURL.href = certificateData.credentialURL;
+      credentials.style.display = "block";
+
+      // Show action buttons
+      actions.style.display = "block";
+
+      // Event listeners for buttons
+      document.getElementById("share-button").onclick = () => {
+        const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          certificateData.credentialURL
         )}`;
-        window.open(shareUrl, "_blank");
-      });
+        window.open(linkedinShareURL, "_blank");
+      };
 
-      // Add to LinkedIn
-      document.getElementById("add-to-linkedin").addEventListener("click", function () {
-        const linkedInUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=GEN%20AI%20Study%20Jams%202024&organizationName=GDG%20on%20Campus-LNCTS&issueYear=2024&issueMonth=11`;
-        window.open(linkedInUrl, "_blank");
-      });
+      document.getElementById("add-to-linkedin").onclick = () => {
+        const linkedInAddURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=GEN%20AI%20Study%20Jams%202024&organizationId=GDG%20on%20Campus-LNCTS&issueYear=2024&issueMonth=11&credentialId=${
+          certificateData.certID
+        }&credentialUrl=${encodeURIComponent(certificateData.credentialURL)}`;
+        window.open(linkedInAddURL, "_blank");
+      };
 
-      // Download Certificate
-      document.getElementById("download-certificate").addEventListener("click", function () {
+      document.getElementById("download-certificate").onclick = () => {
         const link = document.createElement("a");
-        link.href = certificateImageElement.src;
-        link.download = `${userName}_Certificate.jpg`;
+        link.href = certificateData.image;
+        link.download = `Certificate_${certificateData.certID}.jpg`;
         link.click();
-      });
-    });
+      };
+    };
   </script>
 </body>
 </html>
