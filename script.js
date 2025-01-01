@@ -8,6 +8,8 @@ const imageElement = document.getElementById("certificate-image");
 const actionsElement = document.getElementById("actions");
 const shareButton = document.getElementById("share-button");
 const addToLinkedInButton = document.getElementById("add-to-linkedin");
+const modal = document.getElementById("share-instructions-modal");
+const closeButton = document.querySelector(".close-button");
 
 // Fetch certificate data
 fetch("certificates.json")
@@ -21,18 +23,16 @@ fetch("certificates.json")
       imageElement.style.display = "block";
       actionsElement.style.display = "block";
 
-      // Correct text for LinkedIn sharing post
-      const postText = `I am thrilled to share that I successfully participated in the "GEN AI Study Jams 2024" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on November 2024.`;
-      const postURL = encodeURIComponent(window.location.href);  // Current page URL
-      const postTitle = encodeURIComponent("GEN AI Certificate");
-
-      // LinkedIn share URL
-      const linkedInShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${postURL}&title=${postTitle}&summary=${encodeURIComponent(postText)}`;
-
       // Configure Share button
       shareButton.onclick = () => {
-        // Ensure that the URL and text are correctly passed
-        window.open(linkedInShareURL, "_blank");
+        // Auto-download the certificate image
+        const link = document.createElement("a");
+        link.href = certificate.image; // Use certificate.image for the download link
+        link.download = `Certificate_${certificate.certID}.jpg`;
+        link.click();
+
+        // Show the modal with instructions
+        modal.style.display = "block";
       };
 
       // Configure Add to LinkedIn Profile button
@@ -59,3 +59,15 @@ fetch("certificates.json")
   .catch(() => {
     messageElement.textContent = "Error loading certificate data.";
   });
+
+// Close the modal when the close button is clicked
+closeButton.onclick = () => {
+  modal.style.display = "none";
+};
+
+// Close the modal when clicking outside of the modal
+window.onclick = (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
