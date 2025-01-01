@@ -28,18 +28,24 @@ fetch("certificates.json")
 
       // Configure buttons
       shareButton.onclick = () => window.open(linkedInShareURL, "_blank");
+
       addToLinkedInButton.onclick = () => {
+        // Add month and year (November 2024)
+        const currentMonthYear = "November 2024";
         const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
           certificate.event
-        )}&organizationName=Google%20Developer%20Group%20LNCTS&certUrl=${postURL}&certId=${certificate.certID}`;
+        )}&organizationName=Google%20Developer%20Group%20LNCTS&certUrl=${postURL}&certId=${certificate.certID}&dateIssued=${currentMonthYear}`;
         window.open(addToLinkedInURL, "_blank");
       };
+
+      // Fixing the download button
       document.getElementById("download-certificate").onclick = () => {
         const link = document.createElement("a");
-        link.href = certificateData.image;
-        link.download = `Certificate_${certificateData.certID}.jpg`;
+        link.href = certificate.image;  // Corrected to use the 'certificate.image' value for the download link
+        link.download = `Certificate_${certificate.certID}.jpg`;
         link.click();
       };
+
     } else {
       messageElement.textContent = "Certificate not found. Please check your ID.";
     }
