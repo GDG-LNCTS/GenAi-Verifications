@@ -30,18 +30,20 @@ fetch("certificates.json")
       shareButton.onclick = () => window.open(linkedInShareURL, "_blank");
 
       addToLinkedInButton.onclick = () => {
-        // Add month and year (November 2024)
-        const currentMonthYear = "November 2024";
-        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
-          certificate.event
-        )}&organizationName=Google%20Developer%20Group%20LNCTS&certUrl=${postURL}&certId=${certificate.certID}&dateIssued=${currentMonthYear}`;
+        // Update LinkedIn details
+        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
+          &name=${encodeURIComponent("GEN AI Study Jams 2024")}
+          &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
+          &certUrl=${postURL}
+          &certId=${certificate.certID}
+          &dateIssued=${encodeURIComponent("November 2024")}`;
         window.open(addToLinkedInURL, "_blank");
       };
 
       // Fixing the download button
       document.getElementById("download-certificate").onclick = () => {
         const link = document.createElement("a");
-        link.href = certificate.image;  // Corrected to use the 'certificate.image' value for the download link
+        link.href = certificate.image; // Use certificate.image for the download link
         link.download = `Certificate_${certificate.certID}.jpg`;
         link.click();
       };
