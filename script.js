@@ -52,6 +52,7 @@ fetch("certificates.json")
 
       // Configure Add to LinkedIn Profile button
       addToLinkedInButton.onclick = () => {
+        // Construct LinkedIn certification addition URL
         const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
           &name=${encodeURIComponent("GEN AI Study Jams 2024")}
           &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
@@ -59,7 +60,7 @@ fetch("certificates.json")
           &certId=${encodeURIComponent(certificate.certID)}
           &dateIssued=${encodeURIComponent("November 2024")}`;
 
-        // Open the LinkedIn profile add dialog
+        // Open LinkedIn profile addition page in a new tab
         window.open(addToLinkedInURL, "_blank");
       };
 
