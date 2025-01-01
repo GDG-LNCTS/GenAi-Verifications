@@ -10,6 +10,7 @@ const shareButton = document.getElementById("share-button");
 const modal = document.getElementById("share-instructions-modal");
 const closeButton = document.querySelector(".close-button");
 const postButton = document.getElementById("post-button"); // Button to open LinkedIn post
+const addToLinkedInButton = document.getElementById("add-to-linkedin-profile"); // Add to LinkedIn profile button
 
 // Fetch certificate data
 fetch("certificates.json")
@@ -47,6 +48,19 @@ fetch("certificates.json")
           const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent("GEN AI Certificate")}&summary=${encodeURIComponent(postText)}`;
           window.open(linkedInPostURL, "_blank");
         };
+      };
+
+      // Configure Add to LinkedIn Profile button
+      addToLinkedInButton.onclick = () => {
+        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
+          &name=${encodeURIComponent("GEN AI Study Jams 2024")}
+          &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
+          &certUrl=${encodeURIComponent(window.location.href)}
+          &certId=${encodeURIComponent(certificate.certID)}
+          &dateIssued=${encodeURIComponent("November 2024")}`;
+
+        // Open the LinkedIn profile add dialog
+        window.open(addToLinkedInURL, "_blank");
       };
 
       // Configure Download button
