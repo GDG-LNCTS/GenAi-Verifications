@@ -9,6 +9,7 @@ const actionsElement = document.getElementById("actions");
 const shareButton = document.getElementById("share-button");
 const modal = document.getElementById("share-instructions-modal");
 const closeButton = document.querySelector(".close-button");
+const postButton = document.getElementById("post-button"); // Button to open LinkedIn post
 
 // Fetch certificate data
 fetch("certificates.json")
@@ -41,11 +42,11 @@ fetch("certificates.json")
         // Show the modal with instructions
         modal.style.display = "block";
 
-        // Open LinkedIn post dialog after 5 seconds
-        setTimeout(() => {
+        // Configure the post button to open LinkedIn post dialog
+        postButton.onclick = () => {
           const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent("GEN AI Certificate")}&summary=${encodeURIComponent(postText)}`;
           window.open(linkedInPostURL, "_blank");
-        }, 5000); // 5000 milliseconds = 5 seconds
+        };
       };
 
       // Configure Download button
