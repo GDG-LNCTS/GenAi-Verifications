@@ -4,56 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Verification</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f5f5f5;
-    }
-    .container {
-      text-align: center;
-      background: #fff;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      width: 90%;
-      max-width: 600px;
-    }
-    h1 {
-      margin-bottom: 20px;
-    }
-    #certificate-image {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 20px;
-    }
-    .details {
-      margin: 10px 0;
-    }
-    .verified {
-      color: green;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    button {
-      margin: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #0073b1;
-      color: white;
-    }
-    button:hover {
-      background-color: #005983;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -61,68 +12,15 @@
     <div id="certificate-container">
       <p id="message">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate" style="display:none;">
-      <div id="certificate-details" style="display:none;">
-        <p class="details" id="credential-id"></p>
-        <p class="details" id="credential-url"></p>
-        <p class="verified">Certification is verified and authentic.</p>
-      </div>
     </div>
     <div id="actions" style="display:none;">
+      <p class="verified">Certification is verified and authentic.</p>
       <button id="share-button">Share on LinkedIn</button>
       <button id="add-to-linkedin">Add to LinkedIn</button>
+      <button id="download-certificate">Download Certificate</button>
     </div>
   </div>
 
-  <script>
-    window.onload = function () {
-      // Simulated JSON data for demonstration
-      const certificateData = {
-        certID: "GenAi24_0001",
-        name: "Abhi Jain",
-        event: "GEN AI Study Jams",
-        issueYear: "2024",
-        issueMonth: "11",
-        organizationId: "123456789", // Replace with actual organization ID
-        credentialURL: "https://example.com/certificate/GenAi24_0001",
-        certificateImage: "https://example.com/images/certificate.jpg" // Example certificate image
-      };
-
-      // Populate certificate details
-      const messageEl = document.getElementById("message");
-      const certImageEl = document.getElementById("certificate-image");
-      const certDetailsEl = document.getElementById("certificate-details");
-      const credentialIdEl = document.getElementById("credential-id");
-      const credentialUrlEl = document.getElementById("credential-url");
-      const actionsEl = document.getElementById("actions");
-
-      // Update certificate data on the page
-      certImageEl.src = certificateData.certificateImage;
-      certImageEl.style.display = "block";
-      messageEl.style.display = "none";
-
-      credentialIdEl.textContent = `Credential ID: ${certificateData.certID}`;
-      credentialUrlEl.innerHTML = `Credential URL: <a href="${certificateData.credentialURL}" target="_blank">${certificateData.credentialURL}</a>`;
-      certDetailsEl.style.display = "block";
-      actionsEl.style.display = "block";
-
-      // Share on LinkedIn functionality
-      document.getElementById("share-button").onclick = () => {
-        const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-          certificateData.credentialURL
-        )}`;
-        window.open(linkedinShareURL, "_blank");
-      };
-
-      // Add to LinkedIn functionality
-      document.getElementById("add-to-linkedin").onclick = () => {
-        const linkedInAddURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
-          certificateData.event
-        )}&organizationId=${certificateData.organizationId}&issueYear=${certificateData.issueYear}&issueMonth=${certificateData.issueMonth}&credentialId=${certificateData.certID}&credentialUrl=${encodeURIComponent(
-          certificateData.credentialURL
-        )}`;
-        window.open(linkedInAddURL, "_blank");
-      };
-    };
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
