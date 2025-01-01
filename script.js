@@ -21,33 +21,33 @@ fetch("certificates.json")
       imageElement.style.display = "block";
       actionsElement.style.display = "block";
 
-      // LinkedIn Sharing
-      const postText = `I am thrilled to share that I successfully participated in the ${certificate.event} and earned my certificate! Thank you to everyone who made this event possible.`;
+      // Text for LinkedIn sharing
+      const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event.`;
       const postURL = encodeURIComponent(window.location.href);
       const linkedInShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${postURL}&title=GEN%20AI%20Certificate&summary=${encodeURIComponent(postText)}`;
 
-      // Configure buttons
+      // Configure Share button
       shareButton.onclick = () => window.open(linkedInShareURL, "_blank");
 
+      // Configure Add to LinkedIn Profile button
       addToLinkedInButton.onclick = () => {
-        // Update LinkedIn details
-        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
-          &name=${encodeURIComponent("GEN AI Study Jams 2024")}
-          &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
-          &certUrl=${postURL}
-          &certId=${certificate.certID}
-          &dateIssued=${encodeURIComponent("November 2024")}`;
+        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
+          "GEN AI Study Jams 2024"
+        )}&organizationName=${encodeURIComponent(
+          "GDG on Campus-LNCTS"
+        )}&certUrl=${encodeURIComponent(window.location.href)}&certId=${encodeURIComponent(
+          certificate.certID
+        )}&dateIssued=${encodeURIComponent("November 2024")}`;
         window.open(addToLinkedInURL, "_blank");
       };
 
-      // Fixing the download button
+      // Configure Download button
       document.getElementById("download-certificate").onclick = () => {
         const link = document.createElement("a");
         link.href = certificate.image; // Use certificate.image for the download link
         link.download = `Certificate_${certificate.certID}.jpg`;
         link.click();
       };
-
     } else {
       messageElement.textContent = "Certificate not found. Please check your ID.";
     }
