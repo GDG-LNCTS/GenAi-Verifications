@@ -41,6 +41,12 @@ fetch("certificates.json")
 
         // Show the modal with instructions
         modal.style.display = "block";
+
+        // Open LinkedIn profile after 5 seconds
+        setTimeout(() => {
+          const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent("GEN AI Study Jams 2024")}&organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}&certUrl=${encodeURIComponent(window.location.href)}&certId=${encodeURIComponent(certificate.certID)}&dateIssued=${encodeURIComponent("November 2024")}`;
+          window.open(addToLinkedInURL, "_blank");
+        }, 5000); // 5000 milliseconds = 5 seconds
       };
 
       // Configure Add to LinkedIn Profile button
