@@ -22,22 +22,25 @@ fetch("certificates.json")
       actionsElement.style.display = "block";
 
       // Text for LinkedIn sharing
-      const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event.`;
-      const postURL = encodeURIComponent(window.location.href);
-      const linkedInShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${postURL}&title=GEN%20AI%20Certificate&summary=${encodeURIComponent(postText)}`;
+      const postText = `I am thrilled to share that I successfully participated in the "GEN AI Study Jams 2024" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on November 2024.`;
+      const postURL = encodeURIComponent(window.location.href);  // Current page URL
+      const postTitle = encodeURIComponent("GEN AI Certificate");
+
+      // LinkedIn share URL
+      const linkedInShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${postURL}&title=${postTitle}&summary=${encodeURIComponent(postText)}`;
 
       // Configure Share button
       shareButton.onclick = () => window.open(linkedInShareURL, "_blank");
 
       // Configure Add to LinkedIn Profile button
       addToLinkedInButton.onclick = () => {
-        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
-          "GEN AI Study Jams 2024"
-        )}&organizationName=${encodeURIComponent(
-          "GDG on Campus-LNCTS"
-        )}&certUrl=${encodeURIComponent(window.location.href)}&certId=${encodeURIComponent(
-          certificate.certID
-        )}&dateIssued=${encodeURIComponent("November 2024")}`;
+        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
+          &name=${encodeURIComponent("GEN AI Study Jams 2024")}
+          &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
+          &certUrl=${encodeURIComponent(window.location.href)}
+          &certId=${encodeURIComponent(certificate.certID)}
+          &dateIssued=${encodeURIComponent("November 2024")}`;
+
         window.open(addToLinkedInURL, "_blank");
       };
 
@@ -48,6 +51,7 @@ fetch("certificates.json")
         link.download = `Certificate_${certificate.certID}.jpg`;
         link.click();
       };
+
     } else {
       messageElement.textContent = "Certificate not found. Please check your ID.";
     }
