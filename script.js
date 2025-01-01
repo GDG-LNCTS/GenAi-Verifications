@@ -34,6 +34,12 @@ fetch("certificates.json")
         )}&organizationName=Google%20Developer%20Group%20LNCTS&certUrl=${postURL}&certId=${certificate.certID}`;
         window.open(addToLinkedInURL, "_blank");
       };
+      document.getElementById("download-certificate").onclick = () => {
+        const link = document.createElement("a");
+        link.href = certificateData.image;
+        link.download = `Certificate_${certificateData.certID}.jpg`;
+        link.click();
+      };
     } else {
       messageElement.textContent = "Certificate not found. Please check your ID.";
     }
