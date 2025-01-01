@@ -31,6 +31,14 @@ fetch("certificates.json")
         link.download = `Certificate_${certificate.certID}.jpg`;
         link.click();
 
+        // Copy the post text to clipboard
+        const postText = `I am thrilled to share that I successfully participated in the "GEN AI Study Jams 2024" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on November 2024.`;
+        navigator.clipboard.writeText(postText).then(() => {
+          console.log('Text copied to clipboard');
+        }).catch(err => {
+          console.error('Could not copy text: ', err);
+        });
+
         // Show the modal with instructions
         modal.style.display = "block";
       };
