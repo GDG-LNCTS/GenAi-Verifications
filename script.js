@@ -38,12 +38,7 @@ fetch("certificates.json")
       // Configure Add to LinkedIn Profile button
       addToLinkedInButton.onclick = () => {
         // Construct the LinkedIn profile update URL with all required details
-        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
-          &name=${encodeURIComponent("GEN AI Study Jams 2024")}
-          &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
-          &certUrl=${encodeURIComponent(window.location.href)}
-          &certId=${encodeURIComponent(certificate.certID)}
-          &dateIssued=${encodeURIComponent("November 2024")}`;
+        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent("GEN AI Study Jams 2024")}&organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}&certUrl=${encodeURIComponent(window.location.href)}&certId=${encodeURIComponent(certificate.certID)}&dateIssued=${encodeURIComponent("November 2024")}`;
         
         // Open the LinkedIn add profile page in a new tab
         window.open(addToLinkedInURL, "_blank");
