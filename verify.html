@@ -13,65 +13,45 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f4f4f4;
+      background-color: #f5f5f5;
     }
-
     .container {
-      background: white;
-      width: 90%;
-      max-width: 800px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       text-align: center;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
     }
-
     h1 {
-      font-size: 1.8em;
       margin-bottom: 20px;
     }
-
-    #certificate-container {
-      margin-bottom: 20px;
-    }
-
     #certificate-image {
-      width: 100%;
+      max-width: 100%;
       height: auto;
-      border: 1px solid #ddd;
       margin-bottom: 20px;
     }
-
-    #credentials {
-      margin-top: 20px;
-      font-size: 0.9em;
-      color: #555;
+    .details {
+      margin: 10px 0;
     }
-
-    .authenticity-message {
-      margin-top: 10px;
-      font-size: 1.1em;
+    .verified {
       color: green;
+      font-weight: bold;
+      margin-top: 10px;
     }
-
     button {
+      margin: 5px;
       padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      color: white;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #0073b1;
+      color: white;
     }
-
-    #share-button {
-      background: #0077b5;
-    }
-
-    #add-to-linkedin {
-      background: #ff6f00;
-    }
-
-    #download-certificate {
-      background: #4CAF50;
+    button:hover {
+      background-color: #005983;
     }
   </style>
 </head>
@@ -81,60 +61,51 @@
     <div id="certificate-container">
       <p id="message">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate" style="display:none;">
-    </div>
-    <p class="authenticity-message" style="display:none;" id="authenticity-message">
-      This certificate is verified and authentic.
-    </p>
-    <div id="credentials" style="display:none;">
-      <p>Credential ID: <span id="credential-id"></span></p>
-      <p>Credential URL: <a href="#" target="_blank" id="credential-url"></a></p>
+      <div id="certificate-details" style="display:none;">
+        <p class="details" id="credential-id"></p>
+        <p class="details" id="credential-url"></p>
+        <p class="verified">Certification is verified and authentic.</p>
+      </div>
     </div>
     <div id="actions" style="display:none;">
-      <button id="share-button">Share As Post</button>
-      <button id="add-to-linkedin">Add to LinkedIn Profile</button>
-      <button id="download-certificate">Download Certificate</button>
+      <button id="share-button">Share on LinkedIn</button>
+      <button id="add-to-linkedin">Add to LinkedIn</button>
     </div>
   </div>
 
   <script>
-    // Sample data
-    const certificateData = {
-      certID: "GenAi24_0001",
-      name: "Abhi Jain",
-      event: "GEN AI Study Jams",
-      status: "Verified",
-      image: "certificates/GenAi24_0001.jpg",
-      credentialURL: "https://example.com/certificate/GenAi24_0001"
-    };
-
-    // Load certificate details
     window.onload = function () {
-      const message = document.getElementById("message");
-      const certificateImage = document.getElementById("certificate-image");
-      const actions = document.getElementById("actions");
-      const authenticityMessage = document.getElementById("authenticity-message");
-      const credentials = document.getElementById("credentials");
-      const credentialID = document.getElementById("credential-id");
-      const credentialURL = document.getElementById("credential-url");
+      // Simulated JSON data for demonstration
+      const certificateData = {
+        certID: "GenAi24_0001",
+        name: "Abhi Jain",
+        event: "GEN AI Study Jams",
+        issueYear: "2024",
+        issueMonth: "11",
+        organizationId: "123456789", // Replace with actual organization ID
+        credentialURL: "https://example.com/certificate/GenAi24_0001",
+        certificateImage: "https://example.com/images/certificate.jpg" // Example certificate image
+      };
 
-      // Display certificate image
-      certificateImage.src = certificateData.image;
-      certificateImage.style.display = "block";
-      message.style.display = "none";
+      // Populate certificate details
+      const messageEl = document.getElementById("message");
+      const certImageEl = document.getElementById("certificate-image");
+      const certDetailsEl = document.getElementById("certificate-details");
+      const credentialIdEl = document.getElementById("credential-id");
+      const credentialUrlEl = document.getElementById("credential-url");
+      const actionsEl = document.getElementById("actions");
 
-      // Show authenticity message
-      authenticityMessage.style.display = "block";
+      // Update certificate data on the page
+      certImageEl.src = certificateData.certificateImage;
+      certImageEl.style.display = "block";
+      messageEl.style.display = "none";
 
-      // Set and display credential details
-      credentialID.textContent = certificateData.certID;
-      credentialURL.textContent = certificateData.credentialURL;
-      credentialURL.href = certificateData.credentialURL;
-      credentials.style.display = "block";
+      credentialIdEl.textContent = `Credential ID: ${certificateData.certID}`;
+      credentialUrlEl.innerHTML = `Credential URL: <a href="${certificateData.credentialURL}" target="_blank">${certificateData.credentialURL}</a>`;
+      certDetailsEl.style.display = "block";
+      actionsEl.style.display = "block";
 
-      // Show action buttons
-      actions.style.display = "block";
-
-      // Event listeners for buttons
+      // Share on LinkedIn functionality
       document.getElementById("share-button").onclick = () => {
         const linkedinShareURL = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
           certificateData.credentialURL
@@ -142,18 +113,14 @@
         window.open(linkedinShareURL, "_blank");
       };
 
+      // Add to LinkedIn functionality
       document.getElementById("add-to-linkedin").onclick = () => {
-        const linkedInAddURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=GEN%20AI%20Study%20Jams%202024&organizationId=GDG%20on%20Campus-LNCTS&issueYear=2024&issueMonth=11&credentialId=${
-          certificateData.certID
-        }&credentialUrl=${encodeURIComponent(certificateData.credentialURL)}`;
+        const linkedInAddURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
+          certificateData.event
+        )}&organizationId=${certificateData.organizationId}&issueYear=${certificateData.issueYear}&issueMonth=${certificateData.issueMonth}&credentialId=${certificateData.certID}&credentialUrl=${encodeURIComponent(
+          certificateData.credentialURL
+        )}`;
         window.open(linkedInAddURL, "_blank");
-      };
-
-      document.getElementById("download-certificate").onclick = () => {
-        const link = document.createElement("a");
-        link.href = certificateData.image;
-        link.download = `Certificate_${certificateData.certID}.jpg`;
-        link.click();
       };
     };
   </script>
