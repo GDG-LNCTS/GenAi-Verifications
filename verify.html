@@ -78,6 +78,12 @@
       animation: fadeIn 1s ease-in-out;
     }
 
+    .tick {
+      color: #34a853; /* Green color for tick */
+      font-size: 1.2rem;
+      margin-left: 5px;
+    }
+
     /* Modal Styles */
     #share-instructions-modal {
       position: fixed;
@@ -92,6 +98,8 @@
       display: none;
       z-index: 1000;
       animation: scaleUp 0.5s ease-in-out;
+      width: 90%; /* Responsive width */
+      max-width: 500px; /* Max width for larger screens */
     }
 
     #share-instructions-modal.show {
@@ -134,13 +142,13 @@
       from {
         opacity: 0;
       }
-      to {
+ to {
         opacity: 1;
       }
     }
 
     @keyframes scaleUp {
- from {
+      from {
         transform: scale(0.8);
       }
       to {
@@ -157,7 +165,7 @@
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic.</p>
+      <p class="verified">Certification is verified and authentic.<span class="tick">✔️</span></p>
 
       <!-- Share Button -->
       <button id="share-button">Share on Socials</button>
@@ -178,6 +186,10 @@
           <button id="twitter-share">Share on Twitter</button>
           <button id="whatsapp-share">Share on WhatsApp</button>
           <button id="instagram-share">Share on Instagram</button>
+          <div>
+            <input type="text" id="website-url" value="https://yourwebsite.com" readonly>
+            <button id="copy-link">Copy Link</button>
+          </div>
         </div>
       </div>
       <div class="overlay"></div>
@@ -200,6 +212,8 @@
       const postButton = document.getElementById("post-button");
       const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
       const downloadButton = document.getElementById("download-certificate");
+      const copyLinkButton = document.getElementById("copy-link");
+      const websiteUrlInput = document.getElementById("website-url");
 
       // Extract the certID from the URL
       const params = new URLSearchParams(window.location.search);
@@ -244,7 +258,7 @@
 
               // Configure LinkedIn Post button
               postButton.onclick = () => {
-                const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                const linkedIn PostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
                   window.location.href
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
@@ -301,6 +315,17 @@
               link.href = certificate.image;
               link.download = `Certificate_${certificate.certID}.jpg`;
               link.click();
+            };
+
+            // Configure Copy Link button
+            copyLinkButton.onclick = () => {
+              navigator.clipboard.writeText(websiteUrlInput.value)
+                .then(() => {
+                  alert("Link copied to clipboard!");
+                })
+                .catch(err => {
+                  console.error("Could not copy link: ", err);
+                });
             };
           } else {
             // Handle certificate not found
