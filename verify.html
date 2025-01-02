@@ -4,39 +4,226 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Verification</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Import Google Sans (similar to Product Sans) */
+    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+
+    /* Basic Styles */
+    body {
+      font-family: 'Google Sans', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    #certificate-image {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    #certificate-image.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    button {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #0073b1;
+      color: white;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #005983;
+      transform: translateY(-2px);
+    }
+
+    .verified {
+      color: #32cd32;
+      font-weight: bold;
+      margin-top: 10px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Modal Styles */
+    #share-instructions-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      display: none;
+      z-index: 1000;
+      animation: scaleUp 0.5s ease-in-out;
+    }
+
+    #share-instructions-modal.show {
+      display: block;
+    }
+
+    .modal-content {
+      text-align: left;
+    }
+
+    .close-button {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    ol {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    /* Overlay for Modal */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes scaleUp {
+      from {
+        transform: scale(0.8);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
       <p id="message">Loading your certificate...</p>
-      <img id="certificate-image" src="" alt="Certificate" style="display:none;">
+      <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
       <p class="verified">Certification is verified and authentic.</p>
-<!-- Share Button -->
-<button id="share-button">Share on LinkedIn</button>
 
-<!-- Modal Structure -->
-<div id="share-instructions-modal" style="display:none;">
-  <div class="modal-content">
-    <span class="close-button">&times;</span>
-    <h2>How to Share Your Certificate on LinkedIn</h2>
-    <ol>
-      <li>Download the certificate image.</li>
-      <li>Open LinkedIn in a new tab.</li>
-      <li>Paste the copied text and attach the image.</li>
-      <li>Post the certificate on your profile.</li>
-    </ol>
-    <button id="post-button">Open Click to Post</button> <!-- Button to open LinkedIn post -->
-  </div>
-</div>
-<button id="add-to-linkedin-profile">Add to LinkedIn Profile</button>
+      <!-- Share Button -->
+      <button id="share-button">Share on LinkedIn</button>
+
+      <!-- Modal Structure -->
+      <div id="share-instructions-modal">
+        <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>How to Share Your Certificate on LinkedIn</h2>
+          <ol>
+            <li>Download the certificate image.</li>
+            <li>Open LinkedIn in a new tab.</li>
+            <li>Paste the copied text and attach the image.</li>
+            <li>Post the certificate on your profile.</li>
+          </ol>
+          <button id="post-button">Open LinkedIn</button>
+        </div>
+      </div>
+      <div class="overlay"></div>
+
+      <button id="add-to-linkedin-profile">Add to LinkedIn Profile</button>
       <button id="download-certificate">Download Certificate</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // JavaScript for Dynamic Behavior
+    document.addEventListener("DOMContentLoaded", () => {
+      const certImageEl = document.getElementById("certificate-image");
+      const messageEl = document.getElementById("message");
+      const actionsEl = document.getElementById("actions");
+      const shareButton = document.getElementById("share-button");
+      const modal = document.getElementById("share-instructions-modal");
+      const closeButton = document.querySelector(".close-button");
+      const overlay = document.querySelector(".overlay");
+
+      // Simulate Certificate Data
+      const certificateData = {
+        certificateImage: "https://via.placeholder.com/600x400", // Replace with actual image URL
+      };
+
+      // Show Certificate Image and Actions
+      certImageEl.src = certificateData.certificateImage;
+      certImageEl.onload = () => {
+        certImageEl.classList.add("visible");
+        messageEl.style.display = "none";
+        actionsEl.style.display = "block";
+      };
+
+      // Open Modal
+      shareButton.addEventListener("click", () => {
+        modal.classList.add("show");
+        overlay.classList.add("show");
+      });
+
+      // Close Modal
+      closeButton.addEventListener("click", () => {
+        modal.classList.remove("show");
+        overlay.classList.remove("show");
+      });
+
+      overlay.addEventListener("click", () => {
+        modal.classList.remove("show");
+        overlay.classList.remove("show");
+      });
+    });
+  </script>
 </body>
 </html>
