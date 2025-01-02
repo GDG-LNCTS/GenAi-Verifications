@@ -4,68 +4,90 @@
     "name": "Abhi Jain",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0001.jpg"
+    "image": "certificates/GenAi24_0001.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0001",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0002",
     "name": "Abhigyan Dwivedi",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0002.jpg"
+    "image": "certificates/GenAi24_0002.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0002",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0003",
     "name": "Ankit Kumar",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0003.jpg"
+    "image": "certificates/GenAi24_0003.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0003",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0004",
     "name": "Anusha Malviya",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0004.jpg"
+    "image": "certificates/GenAi24_0004.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0004",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0005",
     "name": "Anushka Sethi",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0005.jpg"
+    "image": "certificates/GenAi24_0005.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0005",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0006",
     "name": "Arish Ahirwar",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0006.jpg"
+    "image": "certificates/GenAi24_0006.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0006",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0007",
     "name": "Ashutosh Kushwaha",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0007.jpg"
+    "image": "certificates/GenAi24_0007.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0007",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0008",
     "name": "Ashutosh Parashar",
     "event": "GEN AI Study Jams",
     "status": "Verified",
-    "image": "certificates/GenAi24_0008.jpg"
+    "image": "certificates/GenAi24_0008.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0008",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0009",
     "name": "Ayush Namdev",
     "event": "GEN AI Study Jams",
-    "status": "Verified"
+    "status": "Verified",
+    "image": "certificates/GenAi24_0009.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0009",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0010",
     "name": "Chandrabhan Choudhary",
     "event": "GEN AI Study Jams",
-    "status": "Verified"
+    "status": "Verified",
+    "image": "certificates/GenAi24_0010.jpg",
+    "credentialURL": "https://example.com/certificates/GenAi24_0010",
+    "eventDate": "November 2024"
   },
   {
     "certID": "GenAi24_0011",
