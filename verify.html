@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Verification</title>
   <style>
-    /* Import Google Sans (similar to Product Sans) */
-    @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+    /* Import Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
     /* Basic Styles */
     body {
-      font-family: 'Google Sans', Arial, sans-serif;
+      font-family: 'Roboto', Arial, sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
@@ -123,8 +123,6 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 999;
       display: none;
-    }
-
     .overlay.show {
       display: block;
     }
@@ -153,7 +151,7 @@
   <div class="container">
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
-      <pid="message">Loading your certificate...</p>
+      <p id="message" aria-live="polite">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
@@ -248,7 +246,11 @@
                   window.location.href
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
-                )}&summary=${encodeURIComponent(postText)}`;
+                )}& summary=${encodeURIComponent(postText)}`;
+                const link = document.createElement("a");
+                link.href = certificate.image;
+                link.download = `Certificate_${certificate.certID}.jpg`;
+                link.click();
                 window.open(linkedInPostURL, "_blank");
               };
 
@@ -259,7 +261,7 @@
               };
 
               document.getElementById("twitter-share").onclick = () => {
-                const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${ encodeURIComponent(window.location.href)}`;
+                const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${encodeURIComponent(window.location.href)}`;
                 window.open(twitterShareURL, "_blank");
               };
 
@@ -294,11 +296,9 @@
             // Configure Download button
             downloadButton.onclick = () => {
               const link = document.createElement("a");
-              link.href = certificate.image; // Ensure this URL is valid
+              link.href = certificate.image;
               link.download = `Certificate_${certificate.certID}.jpg`;
-              document.body.appendChild(link); // Append to body to make it work in Firefox
               link.click();
-              document.body.removeChild(link); // Clean up
             };
           } else {
             // Handle certificate not found
