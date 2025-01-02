@@ -92,14 +92,10 @@
       display: none;
       z-index: 1000;
       animation: scaleUp 0.5s ease-in-out;
-      width: 90%; /* Make modal responsive */
-      max-width: 500px; /* Set a max width */
-      height: auto; /* Allow height to adjust */
     }
 
-    #share-instructions-modal img {
-      max-width: 100px; /* Logo size */
-      margin-bottom: 10px; /* Space below logo */
+    #share-instructions-modal.show {
+      display: block;
     }
 
     .modal-content {
@@ -157,18 +153,17 @@
   <div class="container">
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
-      <p id="message">Loading your certificate...</p>
+      <pid="message">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic. ✔️</p>
+      <p class="verified">Certification is verified and authentic.</p>
 
       <!-- Share Button -->
       <button id="share-button">Share on Socials</button>
 
       <!-- Modal Structure -->
       <div id="share-instructions-modal">
-        <img src="logo.png" alt="Logo" /> <!-- Logo Image -->
         <div class="modal-content">
           <span class="close-button">&times;</span>
           <h2>How to Share Your Certificate</h2>
@@ -203,7 +198,7 @@
       const closeButton = document.querySelector(".close-button");
       const overlay = document.querySelector(".overlay");
       const postButton = document.getElementById("post-button");
-      const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
+      const addToLinkedInButton = document.getElementById("add-to-linkedin-profile");
       const downloadButton = document.getElementById("download-certificate");
 
       // Extract the certID from the URL
@@ -254,10 +249,6 @@
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
                 )}&summary=${encodeURIComponent(postText)}`;
-                const link = document.createElement("a");
-                link.href = certificate.image;
-                link.download = `Certificate_${certificate.certID}.jpg`;
-                link.click ();
                 window.open(linkedInPostURL, "_blank");
               };
 
@@ -268,7 +259,7 @@
               };
 
               document.getElementById("twitter-share").onclick = () => {
-                const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${encodeURIComponent(window.location.href)}`;
+                const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${ encodeURIComponent(window.location.href)}`;
                 window.open(twitterShareURL, "_blank");
               };
 
@@ -303,9 +294,11 @@
             // Configure Download button
             downloadButton.onclick = () => {
               const link = document.createElement("a");
-              link.href = certificate.image;
+              link.href = certificate.image; // Ensure this URL is valid
               link.download = `Certificate_${certificate.certID}.jpg`;
+              document.body.appendChild(link); // Append to body to make it work in Firefox
               link.click();
+              document.body.removeChild(link); // Clean up
             };
           } else {
             // Handle certificate not found
