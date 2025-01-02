@@ -92,10 +92,14 @@
       display: none;
       z-index: 1000;
       animation: scaleUp 0.5s ease-in-out;
+      width: 90%; /* Make modal responsive */
+      max-width: 500px; /* Set a max width */
+      height: auto; /* Allow height to adjust */
     }
 
-    #share-instructions-modal.show {
-      display: block;
+    #share-instructions-modal img {
+      max-width: 100px; /* Logo size */
+      margin-bottom: 10px; /* Space below logo */
     }
 
     .modal-content {
@@ -140,7 +144,7 @@
     }
 
     @keyframes scaleUp {
- from {
+      from {
         transform: scale(0.8);
       }
       to {
@@ -157,13 +161,14 @@
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic.</p>
+      <p class="verified">Certification is verified and authentic. ✔️</p>
 
       <!-- Share Button -->
       <button id="share-button">Share on Socials</button>
 
       <!-- Modal Structure -->
       <div id="share-instructions-modal">
+        <img src="logo.png" alt="Logo" /> <!-- Logo Image -->
         <div class="modal-content">
           <span class="close-button">&times;</span>
           <h2>How to Share Your Certificate</h2>
@@ -252,7 +257,7 @@
                 const link = document.createElement("a");
                 link.href = certificate.image;
                 link.download = `Certificate_${certificate.certID}.jpg`;
-                link.click();
+                link.click ();
                 window.open(linkedInPostURL, "_blank");
               };
 
