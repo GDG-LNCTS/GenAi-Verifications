@@ -174,10 +174,8 @@
       <p id="message" aria-live="polite">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate">
     </div>
-    <div id="loading">
-      <p>Loading...</p>
-      <div class="loader"></div> <!-- You can add a CSS loader here -->
-      <p>POWERED BY NEXUS NETWORK IO</p>
+    <div id="loading" style="display: block;">
+      <p>POWERED BY <strong>NEXUS NETWORK IO</strong></p>
       <p>Club and startup management expertise</p>
     </div>
     <div id="actions" style="display:none;">
@@ -223,15 +221,14 @@
       const closeButton = document.querySelector(".close-button");
       const overlay = document.querySelector(".overlay");
       const postButton = document.getElementById("post-button");
-      const addToLinkedInButton = document.getElementById("add-to-linkedin-profile");
+      const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
       const downloadButton = document.getElementById("download-certificate");
 
       // Extract the certID from the URL
       const params = new URLSearchParams(window.location.search);
       const certID = params.get("certID");
 
-      // Show loading animation
-      loadingEl.style.display = "block";
+      // Show loading message
       setTimeout(() => {
         loadingEl.style.display = "none";
         fetch("certificates.json")
@@ -267,7 +264,7 @@
                   });
 
                 // Show modal
-                modal.classList.add("show");
+                modal.classList.add("show ");
                 overlay.classList.add("show");
 
                 // Configure LinkedIn Post button
@@ -339,7 +336,7 @@
             // Handle fetch error
             messageEl.textContent = "Error loading certificate data.";
           });
-      }, 5000); // 5 seconds loading delay
+      }, 8000); // 8 seconds loading delay
 
       // Close the modal when the close button is clicked
       closeButton.onclick = () => {
