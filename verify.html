@@ -57,15 +57,13 @@
     button {
       margin: 10px 5px;
       padding: 10px 20px;
-      font-size: 1rem; /* Use rem for better scaling */
+      font-size: 16px;
       cursor: pointer;
       border: none;
       border-radius: 5px;
       background-color: #4285f4; /* Google blue */
       color: white;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      width: 100%; /* Full width on small screens */
-      max-width: 200px; /* Limit max width */
     }
 
     button:hover {
@@ -94,8 +92,6 @@
       display: none;
       z-index: 1000;
       animation: scaleUp 0.5s ease-in-out;
-      max-width: 90%; /* Responsive width */
-      overflow: auto; /* Allow scrolling if content is too long */
     }
 
     #share-instructions-modal.show {
@@ -124,7 +120,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0 , 0.5);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 999;
       display: none;
     }
@@ -144,29 +140,11 @@
     }
 
     @keyframes scaleUp {
-      from {
+ from {
         transform: scale(0.8);
       }
       to {
         transform: scale(1);
-      }
-    }
-
-    /* Logo Styles */
-    #logo {
-      max-width: 100px; /* Set a max width for the logo */
-      margin-bottom: 20px; /* Space below the logo */
-    }
-
-    /* Media Queries for Responsiveness */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.5rem; /* Smaller font size for smaller screens */
-      }
-
-      button {
-        padding: 12px 15px; /* Adjust button padding */
-        font-size: 1rem; /* Ensure font size is readable */
       }
     }
   </style>
@@ -179,14 +157,13 @@
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic. ✔️</p>
+      <p class="verified">Certification is verified and authentic.</p>
 
       <!-- Share Button -->
       <button id="share-button">Share on Socials</button>
 
       <!-- Modal Structure -->
       <div id="share-instructions-modal">
-        <img id="logo" src="logo.png" alt="Logo"> <!-- Add logo image -->
         <div class="modal-content">
           <span class="close-button">&times;</span>
           <h2>How to Share Your Certificate</h2>
@@ -196,7 +173,6 @@
             <li>Paste the copied text and attach the image.</li>
             <li>Post the certificate on your profile.</li>
           </ol>
-          <button id="copy-url-button">Copy URL</button> <!-- Copy URL button -->
           <button id="post-button">Share on LinkedIn</button>
           <button id="facebook-share">Share on Facebook</button>
           <button id="twitter-share">Share on Twitter</button>
@@ -224,7 +200,6 @@
       const postButton = document.getElementById("post-button");
       const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
       const downloadButton = document.getElementById("download-certificate");
-      const copyUrlButton = document.getElementById("copy-url-button");
 
       // Extract the certID from the URL
       const params = new URLSearchParams(window.location.search);
@@ -251,7 +226,8 @@
             };
 
             // Configure Share button
-            shareButton.onclick = () => // Copy post text to clipboard
+            shareButton.onclick = () => {
+              // Copy post text to clipboard
               const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on ${certificate.eventDate}.`;
               navigator.clipboard
                 .writeText(postText)
@@ -266,17 +242,6 @@
               modal.classList.add("show");
               overlay.classList.add("show");
 
-              // Configure Copy URL button
-              copyUrlButton.onclick = () => {
-                navigator.clipboard.writeText(window.location.href)
-                  .then(() => {
-                    alert("URL copied to clipboard!");
-                  })
-                  .catch(err => {
-                    console.error("Could not copy URL: ", err);
-                  });
-              };
-
               // Configure LinkedIn Post button
               postButton.onclick = () => {
                 const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
@@ -284,6 +249,10 @@
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
                 )}&summary=${encodeURIComponent(postText)}`;
+                const link = document.createElement("a");
+                link.href = certificate.image;
+                link.download = `Certificate_${certificate.certID}.jpg`;
+                link.click();
                 window.open(linkedInPostURL, "_blank");
               };
 
