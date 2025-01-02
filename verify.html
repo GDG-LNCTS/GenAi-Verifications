@@ -38,6 +38,11 @@
       color: #4285f4; /* Google blue */
     }
 
+    #logo {
+      max-width: 100px; /* Adjust logo size */
+      margin-bottom: 20px;
+    }
+
     #certificate-image {
       max-width: 100%;
       height: auto;
@@ -76,6 +81,18 @@
       font-weight: bold;
       margin-top: 10px;
       animation: fadeIn 1s ease-in-out;
+    }
+
+    .tick {
+      color: #34a853; /* Green color for tick */
+      font-size: 1.2rem; /* Adjust size */
+      margin-left: 5px;
+    }
+
+    /* Loading Styles */
+    #loading {
+      display: none;
+      margin-top: 20px;
     }
 
     /* Modal Styles */
@@ -123,6 +140,8 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 999;
       display: none;
+    }
+
     .overlay.show {
       display: block;
     }
@@ -149,13 +168,20 @@
 </head>
 <body>
   <div class="container">
+    <img id="logo" src="logo.png" alt="Logo"> <!-- Add your logo image source here -->
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
       <p id="message" aria-live="polite">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate">
     </div>
+    <div id="loading">
+      <p>Loading...</p>
+      <div class="loader"></div> <!-- You can add a CSS loader here -->
+      <p>POWERED BY NEXUS NETWORK IO</p>
+      <p>Club and startup management expertise</p>
+    </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic.</p>
+      <p class="verified">Certification is verified and authentic.<span class="tick">✓</span></p>
 
       <!-- Share Button -->
       <button id="share-button">Share on Socials</button>
@@ -191,6 +217,7 @@
       const certImageEl = document.getElementById("certificate-image");
       const messageEl = document.getElementById("message");
       const actionsEl = document.getElementById("actions");
+      const loadingEl = document.getElementById("loading");
       const shareButton = document.getElementById("share-button");
       const modal = document.getElementById("share-instructions-modal");
       const closeButton = document.querySelector(".close-button");
@@ -203,112 +230,116 @@
       const params = new URLSearchParams(window.location.search);
       const certID = params.get("certID");
 
-      // Fetch certificate data
-      fetch("certificates.json")
-        .then((response) => response.json())
-        .then((data) => {
-          // Find the certificate based on certID
-          const certificate = data.find((cert) => cert.certID === certID);
+      // Show loading animation
+      loadingEl.style.display = "block";
+      setTimeout(() => {
+        loadingEl.style.display = "none";
+        fetch("certificates.json")
+          .then((response) => response.json())
+          .then((data) => {
+            // Find the certificate based on certID
+            const certificate = data.find((cert) => cert.certID === certID);
 
-          if (certificate) {
-            // Hide loading message and show certificate
-            messageEl.style.display = "none";
-            certImageEl.src = certificate.image;
-            certImageEl.alt = `Certificate for ${certificate.certID}`;
-            certImageEl.style.display = "block";
-            actionsEl.style.display = "block";
+            if (certificate) {
+              // Hide loading message and show certificate
+              messageEl.style.display = "none";
+              certImageEl.src = certificate.image;
+              certImageEl.alt = `Certificate for ${certificate.certID}`;
+              certImageEl.style.display = "block";
+              actionsEl.style.display = "block";
 
-            // Show certificate image
-            certImageEl.onload = () => {
-              certImageEl.classList.add("visible");
-            };
+              // Show certificate image
+              certImageEl.onload = () => {
+                certImageEl.classList.add("visible");
+              };
 
-            // Configure Share button
-            shareButton.onclick = () => {
-              // Copy post text to clipboard
-              const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on ${certificate.eventDate}.`;
-              navigator.clipboard
-                .writeText(postText)
-                .then(() => {
-                  console.log("Text copied to clipboard");
-                })
-                .catch((err) => {
-                  console.error("Could not copy text: ", err);
-                });
+              // Configure Share button
+              shareButton.onclick = () => {
+                // Copy post text to clipboard
+                const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on ${certificate.eventDate}.`;
+                navigator.clipboard
+                  .writeText(postText)
+                  .then(() => {
+                    console.log("Text copied to clipboard");
+                  })
+                  .catch((err) => {
+                    console.error("Could not copy text: ", err);
+                  });
 
-              // Show modal
-              modal.classList.add("show");
-              overlay.classList.add("show");
+                // Show modal
+                modal.classList.add("show");
+                overlay.classList.add("show");
 
-              // Configure LinkedIn Post button
-              postButton.onclick = () => {
-                const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-                  window.location.href
-                )}&title=${encodeURIComponent(
-                  "GEN AI Certificate"
-                )}& summary=${encodeURIComponent(postText)}`;
+                // Configure LinkedIn Post button
+                postButton.onclick = () => {
+                  const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                    window.location.href
+                  )}&title=${encodeURIComponent(
+                    "GEN AI Certificate"
+                  )}&summary=${encodeURIComponent(postText)}`;
+                  const link = document.createElement("a");
+                  link.href = certificate.image;
+                  link.download = `Certificate_${certificate.certID}.jpg`;
+                  link.click();
+                  window.open(linkedInPostURL, "_blank");
+                };
+
+                // Configure social media share buttons
+                document.getElementById("facebook-share").onclick = () => {
+                  const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+                  window.open(facebookShareURL, "_blank");
+                };
+
+                document.getElementById("twitter-share").onclick = () => {
+                  const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${encodeURIComponent(window.location.href)}`;
+                  window.open(twitterShareURL, "_blank");
+                };
+
+                document.getElementById("whatsapp-share").onclick = () => {
+                  const whatsappShareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(postText + " " + window.location.href)}`;
+                  window.open(whatsappShareURL, "_blank");
+                };
+
+                document.getElementById("instagram-share").onclick = () => {
+                  alert("To share on Instagram, please download the certificate and upload it to your story or post.");
+                  const link = document.createElement("a");
+                  link.href = certificate.image;
+                  link.download = `Certificate_${certificate.certID}.jpg`;
+                  link.click();
+                };
+              };
+
+              // Configure Add to LinkedIn Profile button
+              addToLinkedInButton.onclick = () => {
+                const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
+                  certificate.event
+                )}&organizationName=${encodeURIComponent(
+                  "GDG on Campus-LNCTS"
+                )}&certUrl=${encodeURIComponent(
+                  certificate.credentialURL
+                )}&certId=${encodeURIComponent(
+                  certificate.certID
+                )}&issueYear=2024&issueMonth=11`;
+                window.open(addToLinkedInURL, "_blank");
+              };
+
+              // Configure Download button
+              downloadButton.onclick = () => {
                 const link = document.createElement("a");
                 link.href = certificate.image;
                 link.download = `Certificate_${certificate.certID}.jpg`;
                 link.click();
-                window.open(linkedInPostURL, "_blank");
               };
-
-              // Configure social media share buttons
-              document.getElementById("facebook-share").onclick = () => {
-                const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
-                window.open(facebookShareURL, "_blank");
-              };
-
-              document.getElementById("twitter-share").onclick = () => {
-                const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${encodeURIComponent(window.location.href)}`;
-                window.open(twitterShareURL, "_blank");
-              };
-
-              document.getElementById("whatsapp-share").onclick = () => {
-                const whatsappShareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(postText + " " + window.location.href)}`;
-                window.open(whatsappShareURL, "_blank");
-              };
-
-              document.getElementById("instagram-share").onclick = () => {
-                alert("To share on Instagram, please download the certificate and upload it to your story or post.");
-                const link = document.createElement("a");
-                link.href = certificate.image;
-                link.download = `Certificate_${certificate.certID}.jpg`;
-                link.click();
-              };
-            };
-
-            // Configure Add to LinkedIn Profile button
-            addToLinkedInButton.onclick = () => {
-              const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
-                certificate.event
-              )}&organizationName=${encodeURIComponent(
-                "GDG on Campus-LNCTS"
-              )}&certUrl=${encodeURIComponent(
-                certificate.credentialURL
-              )}&certId=${encodeURIComponent(
-                certificate.certID
-              )}&issueYear=2024&issueMonth=11`;
-              window.open(addToLinkedInURL, "_blank");
-            };
-
-            // Configure Download button
-            downloadButton.onclick = () => {
-              const link = document.createElement("a");
-              link.href = certificate.image;
-              link.download = `Certificate_${certificate.certID}.jpg`;
-              link.click();
-            };
-          } else {
-            // Handle certificate not found
-            messageEl.textContent = "Certificate not found. Please check your ID.";
-          }
-        })
-        .catch(() => {
-          // Handle fetch error
-          messageEl.textContent = "Error loading certificate data.";
-        });
+            } else {
+              // Handle certificate not found
+              messageEl.textContent = "Certificate not found. Please check your ID.";
+            }
+          })
+          .catch(() => {
+            // Handle fetch error
+            messageEl.textContent = "Error loading certificate data.";
+          });
+      }, 5000); // 5 seconds loading delay
 
       // Close the modal when the close button is clicked
       closeButton.onclick = () => {
