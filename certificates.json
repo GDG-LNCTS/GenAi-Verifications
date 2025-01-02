@@ -421,5 +421,14 @@
     "image": "certificates/GenAi24_0047.jpg",
     "credentialURL": "https://gdg-lncts.github.io/GenAi-Verifications/verify.html?certID=GenAi24_0047",
     "eventDate": "November 2024"
-  }
+  },
+  {
+    "certID": "GenAi24_0048",
+    "name": "Bhavya Modi",
+    "event": "GEN AI Study Jams",
+    "status": "Verified",
+    "image": "certificates/GenAi24_0048.jpg",
+    "credentialURL": "https://gdg-lncts.github.io/GenAi-Verifications/verify.html?certID=GenAi24_0048s",
+    "eventDate": "November 2024"
+  }  
 ]
