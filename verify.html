@@ -129,35 +129,18 @@
       display: block;
     }
 
-    /* Social Media Icons */
-    .social-icons {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 10px;
-    }
-
-    .social-icons img {
-      width: 40px; /* Adjust size as needed */
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .social-icons img:hover {
-      transform: scale(1.1);
-    }
-
     /* Animations */
     @keyframes fadeIn {
       from {
         opacity: 0;
- }
+      }
       to {
         opacity: 1;
       }
     }
 
     @keyframes scaleUp {
-      from {
+ from {
         transform: scale(0.8);
       }
       to {
@@ -177,7 +160,7 @@
       <p class="verified">Certification is verified and authentic.</p>
 
       <!-- Share Button -->
-      <button id="share-button">Share on LinkedIn</button>
+      <button id="share-button">Share on Socials</button>
 
       <!-- Modal Structure -->
       <div id="share-instructions-modal">
@@ -190,12 +173,11 @@
             <li>Paste the copied text and attach the image.</li>
             <li>Post the certificate on your profile.</li>
           </ol>
-          <button id="post-button">Open LinkedIn</button>
-          <div class="social-icons">
-            <img src="path/to/facebook-icon.png" alt="Share on Facebook" id="facebook-share">
-            <img src="path/to/twitter-icon.png" alt="Share on Twitter" id="twitter-share">
-            <img src="path/to/whatsapp-icon.png" alt="Share on WhatsApp" id="whatsapp-share">
-          </div>
+          <button id="post-button">Share on LinkedIn</button>
+          <button id="facebook-share">Share on Facebook</button>
+          <button id="twitter-share">Share on Twitter</button>
+          <button id="whatsapp-share">Share on WhatsApp</button>
+          <button id="instagram-share">Share on Instagram</button>
         </div>
       </div>
       <div class="overlay"></div>
@@ -216,7 +198,7 @@
       const closeButton = document.querySelector(".close-button");
       const overlay = document.querySelector(".overlay");
       const postButton = document.getElementById("post-button");
-      const addToLinkedInButton = document.getElementById("add-to-linkedin-profile");
+      const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
       const downloadButton = document.getElementById("download-certificate");
 
       // Extract the certID from the URL
@@ -267,7 +249,11 @@
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
                 )}&summary=${encodeURIComponent(postText)}`;
-                window.open(linkedInPostURL , "_blank");
+                const link = document.createElement("a");
+                link.href = certificate.image;
+                link.download = `Certificate_${certificate.certID}.jpg`;
+                link.click();
+                window.open(linkedInPostURL, "_blank");
               };
 
               // Configure social media share buttons
@@ -284,6 +270,14 @@
               document.getElementById("whatsapp-share").onclick = () => {
                 const whatsappShareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(postText + " " + window.location.href)}`;
                 window.open(whatsappShareURL, "_blank");
+              };
+
+              document.getElementById("instagram-share").onclick = () => {
+                alert("To share on Instagram, please download the certificate and upload it to your story or post.");
+                const link = document.createElement("a");
+                link.href = certificate.image;
+                link.download = `Certificate_${certificate.certID}.jpg`;
+                link.click();
               };
             };
 
