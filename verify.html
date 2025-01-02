@@ -16,6 +16,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column; /* Allow vertical stacking */
       height: 100vh;
       background: #f5f5f5; /* Light background */
       color: #202124; /* Dark text */
@@ -36,6 +37,11 @@
       font-size: 2rem;
       margin-bottom: 20px;
       color: #4285f4; /* Google blue */
+    }
+
+    #logo {
+      max-width: 100px; /* Adjust logo size */
+      margin-bottom: 20px;
     }
 
     #certificate-image {
@@ -79,8 +85,8 @@
     }
 
     .tick {
-      color: #34a853; /* Green color for tick */
-      font-size: 1.2rem;
+      color: #34a853; /* Green tick color */
+      font-size: 1.5rem; /* Adjust size */
       margin-left: 5px;
     }
 
@@ -98,8 +104,8 @@
       display: none;
       z-index: 1000;
       animation: scaleUp 0.5s ease-in-out;
-      width: 90%; /* Responsive width */
-      max-width: 500px; /* Max width for larger screens */
+      max-width: 90%; /* Responsive modal */
+      width: 400px; /* Default width */
     }
 
     #share-instructions-modal.show {
@@ -137,12 +143,25 @@
       display: block;
     }
 
+    /* Social Media Icons */
+    .social-icons {
+      display: flex justify-content: space-around;
+      margin-top: 10px;
+    }
+    .social-icons img {
+      width: 40px; /* Adjust size as needed */
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .social-icons img:hover {
+      transform: scale(1.1);
+    }
     /* Animations */
     @keyframes fadeIn {
       from {
         opacity: 0;
       }
- to {
+      to {
         opacity: 1;
       }
     }
@@ -159,15 +178,18 @@
 </head>
 <body>
   <div class="container">
+    <img id="logo" src="path/to/logo.png" alt="Logo"> <!-- Logo added -->
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
       <p id="message">Loading your certificate...</p>
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic.<span class="tick">✔️</span></p>
+      <p class="verified">Certification is verified and authentic.<span class="tick">✔️</span></p> <!-- Green tick added -->
+      <p>This certificate confirms that the holder has successfully completed the required training and is now qualified to perform the specified tasks.</p> <!-- Example paragraph added -->
 
       <!-- Share Button -->
+      <button id="share-button">Share on LinkedIn</button>
       <button id="share-button">Share on Socials</button>
 
       <!-- Modal Structure -->
@@ -181,15 +203,17 @@
             <li>Paste the copied text and attach the image.</li>
             <li>Post the certificate on your profile.</li>
           </ol>
+          <button id="post-button">Open LinkedIn</button>
+          <div class="social-icons">
+            <img src="path/to/facebook-icon.png" alt="Share on Facebook" id="facebook-share">
+            <img src="path/to/twitter-icon.png" alt="Share on Twitter" id="twitter-share">
+            <img src="path/to/whatsapp-icon.png" alt="Share on WhatsApp" id="whatsapp-share">
+          </div>
           <button id="post-button">Share on LinkedIn</button>
           <button id="facebook-share">Share on Facebook</button>
           <button id="twitter-share">Share on Twitter</button>
           <button id="whatsapp-share">Share on WhatsApp</button>
           <button id="instagram-share">Share on Instagram</button>
-          <div>
-            <input type="text" id="website-url" value="https://yourwebsite.com" readonly>
-            <button id="copy-link">Copy Link</button>
-          </div>
         </div>
       </div>
       <div class="overlay"></div>
@@ -210,10 +234,8 @@
       const closeButton = document.querySelector(".close-button");
       const overlay = document.querySelector(".overlay");
       const postButton = document.getElementById("post-button");
-      const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
+      const addToLinkedInButton = document.getElementById("add-to-linkedin-profile");
       const downloadButton = document.getElementById("download-certificate");
-      const copyLinkButton = document.getElementById("copy-link");
-      const websiteUrlInput = document.getElementById("website-url");
 
       // Extract the certID from the URL
       const params = new URLSearchParams(window.location.search);
@@ -258,11 +280,12 @@
 
               // Configure LinkedIn Post button
               postButton.onclick = () => {
-                const linkedIn PostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
                   window.location.href
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
                 )}&summary=${encodeURIComponent(postText)}`;
+                window.open(linkedInPostURL, "_blank");
                 const link = document.createElement("a");
                 link.href = certificate.image;
                 link.download = `Certificate_${certificate.certID}.jpg`;
@@ -285,7 +308,6 @@
                 const whatsappShareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(postText + " " + window.location.href)}`;
                 window.open(whatsappShareURL, "_blank");
               };
-
               document.getElementById("instagram-share").onclick = () => {
                 alert("To share on Instagram, please download the certificate and upload it to your story or post.");
                 const link = document.createElement("a");
@@ -315,17 +337,6 @@
               link.href = certificate.image;
               link.download = `Certificate_${certificate.certID}.jpg`;
               link.click();
-            };
-
-            // Configure Copy Link button
-            copyLinkButton.onclick = () => {
-              navigator.clipboard.writeText(websiteUrlInput.value)
-                .then(() => {
-                  alert("Link copied to clipboard!");
-                })
-                .catch(err => {
-                  console.error("Could not copy link: ", err);
-                });
             };
           } else {
             // Handle certificate not found
