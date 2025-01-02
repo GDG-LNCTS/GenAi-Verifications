@@ -99,3 +99,23 @@ overlay.onclick = () => {
   modal.classList.remove("show");
   overlay.classList.remove("show");
 };
+    // JavaScript for Dynamic Behavior
+    document.addEventListener("DOMContentLoaded", () => {
+      const certImageEl = document.getElementById("certificate-image");
+      const messageEl = document.getElementById("message");
+      const actionsEl = document.getElementById("actions");
+
+      // Simulated Certificate Data
+      const certificateData = {
+        certID: "GenAi24_0001",
+        certificateImage: "https://via.placeholder.com/600x400"
+      };
+
+      // Show Certificate Image
+      certImageEl.src = certificateData.certificateImage;
+      certImageEl.onload = () => {
+        certImageEl.classList.add("visible");
+        messageEl.style.display = "none";
+        actionsEl.style.display = "block";
+      };
+    });
