@@ -172,7 +172,7 @@
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
       <p id="message" aria-live="polite">Loading your certificate...</p>
-      <img id="certificate-image" src="" alt="Certificate">
+      <img id="certificate-image" src="" alt="Certificate" style="display: none;">
     </div>
     <div id="loading" style="display: block;">
       <p>POWERED BY <strong>NEXUS NETWORK IO</strong></p>
@@ -221,7 +221,7 @@
       const closeButton = document.querySelector(".close-button");
       const overlay = document.querySelector(".overlay");
       const postButton = document.getElementById("post-button");
-      const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
+      const addToLinkedInButton = document.getElementById("add-to-linkedin-profile");
       const downloadButton = document.getElementById("download-certificate");
 
       // Extract the certID from the URL
@@ -231,6 +231,7 @@
       // Show loading message
       setTimeout(() => {
         loadingEl.style.display = "none";
+        certImageEl.style.display = "block"; // Show the image immediately
         fetch("certificates.json")
           .then((response) => response.json())
           .then((data) => {
@@ -238,22 +239,21 @@
             const certificate = data.find((cert) => cert.certID === certID);
 
             if (certificate) {
-              // Hide loading message and show certificate
-              messageEl.style.display = "none";
+              // Set the certificate image source
               certImageEl.src = certificate.image;
               certImageEl.alt = `Certificate for ${certificate.certID}`;
-              certImageEl.style.display = "block";
-              actionsEl.style.display = "block";
 
               // Show certificate image
               certImageEl.onload = () => {
                 certImageEl.classList.add("visible");
               };
 
+              actionsEl.style.display = "block";
+
               // Configure Share button
               shareButton.onclick = () => {
                 // Copy post text to clipboard
-                const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on ${certificate.eventDate}.`;
+                const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-L NCTS for organizing this amazing event. Issued on ${certificate.eventDate}.`;
                 navigator.clipboard
                   .writeText(postText)
                   .then(() => {
@@ -264,7 +264,7 @@
                   });
 
                 // Show modal
-                modal.classList.add("show ");
+                modal.classList.add("show");
                 overlay.classList.add("show");
 
                 // Configure LinkedIn Post button
