@@ -185,10 +185,10 @@
       <button id="share-button">Share on Socials</button>
 
       <!-- Modal Structure -->
-      <div id="share-instructions-modal">
+      <div id="share-instructions-modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-content">
-          <span class="close-button">&times;</span>
-          <h2>How to Share Your Certificate</h2>
+          <span class="close-button" aria-label="Close modal">&times;</span>
+          <h2 id="modal-title">How to Share Your Certificate</h2>
           <ol>
             <li>Download the certificate image.</li>
             <li>Open your preferred social media platform.</li>
@@ -202,7 +202,7 @@
           <button id="instagram-share">Share on Instagram</button>
         </div>
       </div>
-      <div class="overlay"></div>
+      <div class="overlay" aria-hidden="true"></div>
 
       <button id="add-to-linkedin-profile">Add to LinkedIn Profile</button>
       <button id="download-certificate">Download Certificate</button>
@@ -246,6 +246,10 @@
               // Show certificate image
               certImageEl.onload = () => {
                 certImageEl.classList.add("visible");
+              };
+
+              certImageEl.onerror = () => {
+                messageEl.textContent = "Error loading certificate image.";
               };
 
               actionsEl.style.display = "block";
