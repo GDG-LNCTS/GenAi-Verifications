@@ -260,7 +260,17 @@
 
               // Configure Share button
               shareButton.onclick = () => {
-                const postText = `I am thrilled to share that I successfully participated in the "${certificate.event}" and earned my certificate! A big thank you to GDG on Campus-L NCTS for organizing this amazing event. Issued on ${certificate.eventDate}.`;
+                const postText = `✨ I am absolutely thrilled to share that I have successfully completed the "${certificate.event}" and earned my official certificate! 🏆🎓 A heartfelt thank you to GDG on Campus-LNCTS for organizing such an incredible event filled with knowledge, innovation, and growth opportunities. 💡🌟
+
+📅 Issued on: ${certificate.eventDate}
+
+I can't wait to apply what I've learned and continue my journey in the tech world! 🚀🌐
+
+If you're passionate about technology and want to be part of an amazing community, I invite you to join our WhatsApp group to become a GDG member! Connect with like-minded individuals, share ideas, and stay updated on future events. 
+
+Click the link below to join the GDG WhatsApp Group: https://chat.whatsapp.com/DMOHMdW5w2PFt02f2alVv9
+
+Let’s keep learning and growing together! 🌍💪`;
                 navigator.clipboard
                   .writeText(postText)
                   .then(() => {
