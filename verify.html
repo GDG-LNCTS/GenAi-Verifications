@@ -129,11 +129,28 @@
       display: block;
     }
 
+    /* Social Media Icons */
+    .social-icons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    .social-icons img {
+      width: 40px; /* Adjust size as needed */
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .social-icons img:hover {
+      transform: scale(1.1);
+    }
+
     /* Animations */
     @keyframes fadeIn {
       from {
         opacity: 0;
-      }
+ }
       to {
         opacity: 1;
       }
@@ -151,7 +168,6 @@
 </head>
 <body>
   <div class="container">
-    <h1>Certificate Verification</h ```html
     <h1>Certificate Verification</h1>
     <div id="certificate-container">
       <p id="message">Loading your certificate...</p>
@@ -167,14 +183,19 @@
       <div id="share-instructions-modal">
         <div class="modal-content">
           <span class="close-button">&times;</span>
-          <h2>How to Share Your Certificate on LinkedIn</h2>
+          <h2>How to Share Your Certificate</h2>
           <ol>
             <li>Download the certificate image.</li>
-            <li>Open LinkedIn in a new tab.</li>
+            <li>Open your preferred social media platform.</li>
             <li>Paste the copied text and attach the image.</li>
             <li>Post the certificate on your profile.</li>
           </ol>
           <button id="post-button">Open LinkedIn</button>
+          <div class="social-icons">
+            <img src="path/to/facebook-icon.png" alt="Share on Facebook" id="facebook-share">
+            <img src="path/to/twitter-icon.png" alt="Share on Twitter" id="twitter-share">
+            <img src="path/to/whatsapp-icon.png" alt="Share on WhatsApp" id="whatsapp-share">
+          </div>
         </div>
       </div>
       <div class="overlay"></div>
@@ -246,7 +267,23 @@
                 )}&title=${encodeURIComponent(
                   "GEN AI Certificate"
                 )}&summary=${encodeURIComponent(postText)}`;
-                window.open(linkedInPostURL, "_blank");
+                window.open(linkedInPostURL , "_blank");
+              };
+
+              // Configure social media share buttons
+              document.getElementById("facebook-share").onclick = () => {
+                const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+                window.open(facebookShareURL, "_blank");
+              };
+
+              document.getElementById("twitter-share").onclick = () => {
+                const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}&url=${encodeURIComponent(window.location.href)}`;
+                window.open(twitterShareURL, "_blank");
+              };
+
+              document.getElementById("whatsapp-share").onclick = () => {
+                const whatsappShareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(postText + " " + window.location.href)}`;
+                window.open(whatsappShareURL, "_blank");
               };
             };
 
