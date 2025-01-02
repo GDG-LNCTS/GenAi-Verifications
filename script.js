@@ -9,85 +9,93 @@ const actionsElement = document.getElementById("actions");
 const shareButton = document.getElementById("share-button");
 const modal = document.getElementById("share-instructions-modal");
 const closeButton = document.querySelector(".close-button");
-const postButton = document.getElementById("post-button"); // Button to open LinkedIn post
-const addToLinkedInButton = document.getElementById("add-to-linkedin-profile"); // Add to LinkedIn profile button
+const overlay = document.querySelector(".overlay");
+const postButton = document.getElementById("post-button");
+const addToLinkedInButton = document.getElementById("add-to-linkedin-profile");
+const downloadButton = document.getElementById("download-certificate");
 
 // Fetch certificate data
 fetch("certificates.json")
-  .then(response => response.json())
-  .then(data => {
-    const certificate = data.find(cert => cert.certID === certID);
+  .then((response) => response.json())
+  .then((data) => {
+    // Find the certificate based on certID
+    const certificate = data.find((cert) => cert.certID === certID);
 
     if (certificate) {
+      // Hide loading message and show certificate
       messageElement.style.display = "none";
       imageElement.src = certificate.image;
+      imageElement.alt = `Certificate for ${certificate.certID}`;
       imageElement.style.display = "block";
       actionsElement.style.display = "block";
 
       // Configure Share button
       shareButton.onclick = () => {
-        // Auto-download the certificate image
-        const link = document.createElement("a");
-        link.href = certificate.image; // Use certificate.image for the download link
-        link.download = `Certificate_${certificate.certID}.jpg`;
-        link.click();
-
-        // Copy the post text to clipboard
+        // Copy post text to clipboard
         const postText = `I am thrilled to share that I successfully participated in the "GEN AI Study Jams 2024" and earned my certificate! A big thank you to GDG on Campus-LNCTS for organizing this amazing event. Issued on November 2024.`;
-        navigator.clipboard.writeText(postText).then(() => {
-          console.log('Text copied to clipboard');
-        }).catch(err => {
-          console.error('Could not copy text: ', err);
-        });
+        navigator.clipboard
+          .writeText(postText)
+          .then(() => {
+            console.log("Text copied to clipboard");
+          })
+          .catch((err) => {
+            console.error("Could not copy text: ", err);
+          });
 
-        // Show the modal with instructions
-        modal.style.display = "block";
+        // Show modal
+        modal.classList.add("show");
+        overlay.classList.add("show");
 
-        // Configure the post button to open LinkedIn post dialog
+        // Configure LinkedIn Post button
         postButton.onclick = () => {
-          const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent("GEN AI Certificate")}&summary=${encodeURIComponent(postText)}`;
+          const linkedInPostURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+            window.location.href
+          )}&title=${encodeURIComponent(
+            "GEN AI Certificate"
+          )}&summary=${encodeURIComponent(postText)}`;
           window.open(linkedInPostURL, "_blank");
         };
       };
 
       // Configure Add to LinkedIn Profile button
       addToLinkedInButton.onclick = () => {
-        // Construct LinkedIn certification addition URL
-        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME
-          &name=${encodeURIComponent("GEN AI Study Jams 2024")}
-          &organizationName=${encodeURIComponent("GDG on Campus-LNCTS")}
-          &certUrl=${encodeURIComponent(window.location.href)}
-          &certId=${encodeURIComponent(certificate.certID)}
-          &dateIssued=${encodeURIComponent("November 2024")}`;
-
-        // Open LinkedIn profile addition page in a new tab
+        const addToLinkedInURL = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(
+          "GEN AI Study Jams 2024"
+        )}&organizationName=${encodeURIComponent(
+          "GDG on Campus-LNCTS"
+        )}&certUrl=${encodeURIComponent(
+          certificate.credentialURL
+        )}&certId=${encodeURIComponent(
+          certificate.certID
+        )}&issueYear=2024&issueMonth=11`;
         window.open(addToLinkedInURL, "_blank");
       };
 
       // Configure Download button
-      document.getElementById("download-certificate").onclick = () => {
+      downloadButton.onclick = () => {
         const link = document.createElement("a");
-        link.href = certificate.image; // Use certificate.image for the download link
+        link.href = certificate.image;
         link.download = `Certificate_${certificate.certID}.jpg`;
         link.click();
       };
-
     } else {
+      // Handle certificate not found
       messageElement.textContent = "Certificate not found. Please check your ID.";
     }
   })
   .catch(() => {
+    // Handle fetch error
     messageElement.textContent = "Error loading certificate data.";
   });
 
 // Close the modal when the close button is clicked
 closeButton.onclick = () => {
-  modal.style.display = "none";
+  modal.classList.remove("show");
+  overlay.classList.remove("show");
 };
 
 // Close the modal when clicking outside of the modal
-window.onclick = (event) => {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
+overlay.onclick = () => {
+  modal.classList.remove("show");
+  overlay.classList.remove("show");
 };
