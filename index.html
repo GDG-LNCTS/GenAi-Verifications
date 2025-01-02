@@ -1,196 +1,105 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Verification</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Google-inspired styling */
-    body, html {
+    /* Import Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    /* Basic Styles */
+    body {
       font-family: 'Roboto', Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f2f2f2;
-      color: #202124;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f5f5; /* Light background */
+      color: #202124; /* Dark text */
     }
 
     .container {
-      max-width: 800px;
-      margin: 40px auto;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 30px;
       text-align: center;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 500;
-      color: #4285f4;
+      background: #ffffff; /* White background for container */
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      animation: fadeIn 1s ease-in-out;
     }
 
     h1 {
-      color: #4285f4;
-      font-size: 24px;
-      margin: 0 0 0 10px;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #4285f4; /* Google blue */
     }
 
-    #certificate-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      margin: 20px 0;
-      transition: transform 0.2s;
+    #logo {
+      max-width: 200px; /* Adjust logo size */
+      margin-bottom: 10px;
     }
 
-    #certificate-image:hover {
-      transform: scale(1.02);
-    }
-
-    .action-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #4285f4;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: background-color 0.3s, box-shadow 0.3s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: #357ae8;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .btn-secondary {
-      background-color: #f8f9fa;
-      color: #3c4043;
-      border: 1px solid #dadce0;
-    }
-
-    .btn-secondary:hover {
-      background-color: #f0f0f0;
-      border-color: #c6c6c6;
-    }
-
-    .verification-status {
-      color: #34a853;
-      font-weight: 500;
-      margin: 15px 0;
-    }
-
-    /* Modal styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border-radius: 8px;
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       width: 80%;
-      max-width: 500px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
     }
 
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
       cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #4285f4; /* Google blue */
+      color: white;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .close:hover {
-      color: #4285f4;
+    button:hover {
+      background-color: #357ae8; /* Darker blue on hover */
+      transform: translateY(-2px);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="logo">G</div>
-      <h1>Certificate Verification</h1>
-    </div>
-
-    <div id="certificate-container">
-      <p id="message">Loading your certificate...</p>
-      <img id="certificate-image" src="" alt="Certificate">
-    </div>
-
-    <div id="actions" style="display:none;">
-      <p class="verification-status">✓ Certificate Verified</p>
-
-      <div class="action-buttons">
-        <button id="share-button" class="btn">Share</button>
-        <button id="download-button" class="btn btn-secondary">Download</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Share Modal -->
-  <div id="share-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Share Certificate</h2>
-      <p>Choose a platform to share your certificate:</p>
-      <div class="action-buttons">
-        <button class="btn">LinkedIn</button>
-        <button class="btn">Twitter</button>
-      </div>
-    </div>
+    <img id="logo" src="assets/logo.png" alt="Logo"> <!-- Add your logo image source here -->
+    <h1>GenAI 2024 Certificate Verification</h1>
+    <input type="text" id="certIDInput" placeholder="Enter your Certificate ID">
+    <button id="enterButton">Enter</button>
+    <p id="errorMessage" style="color: red; display: none;"></p>
   </div>
 
   <script>
-    // Your existing JavaScript can largely remain the same
-    // Add modal functionality
-    const shareButton = document.getElementById('share-button');
-    const shareModal = document.getElementById('share-modal');
-    const closeModal = document.querySelector('.close');
-
-    shareButton.onclick = () => {
-      shareModal.style.display = 'block';
-    }
-
-    closeModal.onclick = () => {
-      shareModal.style.display = 'none';
-    }
-
-    window.onclick = (event) => {
-      if (event.target == shareModal) {
-        shareModal.style.display = 'none';
+    document.getElementById("enterButton").onclick = function() {
+      const certID = document.getElementById("certIDInput").value.trim();
+      if (certID) {
+        const url = `https://gdg-lncts.github.io/GenAi-Verifications/verify.html?certID=${certID}`;
+        window.location.href = url; // Redirect to the URL
+      } else {
+        const errorMessage = document.getElementById("errorMessage");
+        errorMessage.textContent = "Please enter a valid Certificate ID.";
+        errorMessage.style.display = "block";
       }
-    }
+    };
   </script>
 </body>
 </html>
