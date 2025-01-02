@@ -64,8 +64,6 @@
       background-color: #4285f4; /* Google blue */
       color: white;
       transition: background-color 0.3s ease, transform 0.2s ease;
-      width: 100%; /* Full width on small screens */
-      max-width: 200px; /* Limit max width */
     }
 
     button:hover {
@@ -94,8 +92,6 @@
       display: none;
       z-index: 1000;
       animation: scaleUp 0.5s ease-in-out;
-      max-width: 90%; /* Responsive width */
-      overflow: auto; /* Allow scrolling if content is too long */
     }
 
     #share-instructions-modal.show {
@@ -144,18 +140,12 @@
     }
 
     @keyframes scaleUp {
-      from {
+ from {
         transform: scale(0.8);
       }
       to {
         transform: scale(1);
       }
-    }
-
-    /* Logo Styles */
-    .logo {
-      max-width: 100px; /* Limit logo size */
-      margin-bottom: 20px; /* Space below logo */
     }
   </style>
 </head>
@@ -167,7 +157,7 @@
       <img id="certificate-image" src="" alt="Certificate">
     </div>
     <div id="actions" style="display:none;">
-      <p class="verified">Certification is verified and authentic. ✔️</p>
+      <p class="verified">Certification is verified and authentic.</p>
 
       <!-- Share Button -->
       <button id="share-button">Share on Socials</button>
@@ -175,7 +165,6 @@
       <!-- Modal Structure -->
       <div id="share-instructions-modal">
         <div class="modal-content">
-          <img src="path/to/logo.png" alt="Logo" class="logo"> <!-- Add your logo image here -->
           <span class="close-button">&times;</span>
           <h2>How to Share Your Certificate</h2>
           <ol>
@@ -184,7 +173,6 @@
             <li>Paste the copied text and attach the image.</li>
             <li>Post the certificate on your profile.</li>
           </ol>
-          <button id="copy-url-button">Copy URL</button> <!-- Copy URL button -->
           <button id="post-button">Share on LinkedIn</button>
           <button id="facebook-share">Share on Facebook</button>
           <button id="twitter-share">Share on Twitter</button>
@@ -212,7 +200,6 @@
       const postButton = document.getElementById("post-button");
       const addToLinkedInButton = document.getElementById("add-to-linkedIn-profile");
       const downloadButton = document.getElementById("download-certificate");
-      const copyUrlButton = document.getElementById("copy-url-button");
 
       // Extract the certID from the URL
       const params = new URLSearchParams(window.location.search);
@@ -254,17 +241,6 @@
               // Show modal
               modal.classList.add("show");
               overlay.classList.add("show");
-
-              // Copy URL button functionality
-              copyUrlButton.onclick = () => {
-                navigator.clipboard.writeText(window.location .href)
-                  .then(() => {
-                    alert("URL copied to clipboard!");
-                  })
-                  .catch((err) => {
-                    console.error("Could not copy URL: ", err);
-                  });
-              };
 
               // Configure LinkedIn Post button
               postButton.onclick = () => {
