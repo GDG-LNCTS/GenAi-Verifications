@@ -97,20 +97,25 @@
     }
 
     /* Modal Styles */
-    #share-instructions-modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      color: black;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      display: none;
-      z-index: 1000;
-      animation: scaleUp 0.5s ease-in-out;
-    }
+#share-instructions-modal {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 1000;
+  animation: scaleUp 0.5s ease-in-out;
+  width: 90%; /* Use a percentage for width */
+  max-width: 500px; /* Set a maximum width */
+  height: auto; /* Allow height to adjust based on content */
+  max-height: 80vh; /* Set a maximum height */
+  overflow-y: auto; /* Enable scrolling if content exceeds max height */
+}
 
     #share-instructions-modal.show {
       display: block;
