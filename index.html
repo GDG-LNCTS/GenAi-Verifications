@@ -58,6 +58,15 @@
       margin-bottom: 10px;
     }
 
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+
     button {
       padding: 10px 20px;
       font-size: 16px;
@@ -89,19 +98,33 @@
   <div class="container">
     <img id="logo" src="assets/logo.png" alt="Logo"> <!-- Add your logo image source here -->
     <h1>GenAI 2024 Certificate Verification</h1>
-    <p class="instructions">Please enter your Credential ID below. <br> 'G' & 'A' should be in uppercase, put '_' between 'GenAi24' and 'Idnumber' <BR> (EXAMPLE: "GenAi24_0001").</p>
+    <p class="instructions">Please select your role and enter your Credential ID below. <br> 'G' & 'A' should be in uppercase, put '_' between 'GenAi24' and 'Idnumber' <br> (EXAMPLE: "GenAi24_0001").</p>
+    
+    <select id="roleSelect">
+      <option value="volunteer">Volunteer</option>
+      <option value="member">Member</option>
+    </select>
+    
     <input type="text" id="certIDInput" placeholder="Enter your Certificate ID">
     <button id="enterButton">Enter</button>
     <p id="errorMessage" style="color: red; display: none;"></p><br>
     <p>POWERED BY <strong>NEXUS NETWORK INDIA</strong></p>
-
   </div>
 
   <script>
     document.getElementById("enterButton").onclick = function() {
       const certID = document.getElementById("certIDInput").value.trim();
+      const role = document.getElementById("roleSelect").value;
+      let baseUrl;
+
+      if (role === "volunteer") {
+        baseUrl = "https://gdg-lncts.github.io/GenAi-Verifications/Mverify.html?certID=";
+      } else {
+        baseUrl = "https://gdg-lncts.github.io/GenAi-Verifications/verify.html?certID=";
+      }
+
       if (certID) {
-        const url = `https://gdg-lncts.github.io/GenAi-Verifications/verify.html?certID=${certID}`;
+        const url = `${baseUrl}${certID}`;
         window.location.href = url; // Redirect to the URL
       } else {
         const errorMessage = document.getElementById("errorMessage");
