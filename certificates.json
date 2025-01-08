@@ -432,6 +432,15 @@
     "eventDate": "November 2024"
   },
   {
+    "certID": "GenAi24_0049",
+    "name": "Raj Kumar",
+    "event": "GEN AI Study Jams",
+    "status": "Verified",
+    "image": "certificates/GenAi24_0049.jpg",
+    "credentialURL": "https://gdg-lncts.github.io/GenAi-Verifications/verify.html?certID=GenAi24_0049",
+    "eventDate": "November 2024"
+  }, 
+  {
     "certID": "GenAi24_0101",
     "name": "Akshay Jain",
     "event": "GEN AI Study Jams Mentor",
